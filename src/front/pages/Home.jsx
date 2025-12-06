@@ -1,52 +1,59 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
 
-	const { store, dispatch } = useGlobalReducer()
-
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
-
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
-
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
+	const navigate = useNavigate();
 
 	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
+		<div
+			className="w-100 d-flex flex-column justify-content-center align-items-center"
+			style={{
+				minHeight: "100vh",
+				background: "linear-gradient(135deg, #bc2626ff, #3b4cca)",
+				backgroundSize: "cover, auto",
+				color: "white",
+
+
+
+			}}
+		>
+			{/* Logo / Imagen */}
+			<img
+				src="https://www.pngkey.com/png/full/30-309982_19-pokeball-picture-freeuse-stock-ball-pokemon-huge.png"
+				alt="Poke Ball"
+				className="mb-4"
+				style={{ width: "120px" }}
+			/>
+
+			<h1 className="fw-bold mb-3" style={{ fontSize: "3rem" }}>
+				¡Bienvenido a tu Pokédex!
+			</h1>
+
+			<p className="fs-5 mb-4" style={{ maxWidth: "650px" }}>
+				La <strong>Pokédex</strong> es una herramienta utilizada por los entrenadores Pokémon
+				para consultar información sobre las diferentes especies que encuentran durante su viaje.
 			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
-			</div>
+
+			{/*<img
+				src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png"
+				alt="Pikachu"
+				className="mb-4"
+				
+			/>*/}
+
+			<button
+				onClick={() => navigate("/login")}
+				className="btn btn-light btn-lg px-5 py-3 fw-bold shadow"
+				style={{
+					borderRadius: "50px",
+					fontSize: "1.3rem"
+				}}
+			>
+				Iniciar Sesión / Registrarse
+			</button>
 		</div>
 	);
 }; 
