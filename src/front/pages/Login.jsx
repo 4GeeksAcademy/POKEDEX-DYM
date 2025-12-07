@@ -6,7 +6,7 @@ export const Login = () => {
     const navigate = useNavigate();
     const { dispatch } = useGlobalReducer();
 
-    const [isLogin, setIsLogin] = useState(true);  
+    const [isLogin, setIsLogin] = useState(true);
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -93,7 +93,8 @@ export const Login = () => {
             style={{
                 minHeight: "100vh",
                 background: "linear-gradient(135deg, #3b4cca,  #bc2626ff)",
-                padding: "20px"
+                padding: "20px",
+                marginTop: "-80px"
             }}
         >
             <div

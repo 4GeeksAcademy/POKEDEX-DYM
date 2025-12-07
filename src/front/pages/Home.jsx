@@ -15,7 +15,7 @@ export const Home = () => {
 				background: "linear-gradient(135deg, #bc2626ff, #3b4cca)",
 				backgroundSize: "cover, auto",
 				color: "white",
-
+				marginTop: "-80px"
 
 
 			}}
