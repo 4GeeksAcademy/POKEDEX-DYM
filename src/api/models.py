@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, Text, DateTime
+from sqlalchemy import String, Integer, DateTime, JSON
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -55,19 +55,23 @@ class Favorite(db.Model):
     def __repr__(self) -> dict:
         return f"<Favorite id={self.id} user_id={self.user_id} pokemon_id={self.pokemon_id}>"
 
-    def serialize(self) -> dict:
+    def serialize(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
             "pokemon_id": self.pokemon_id,
             "nickname": self.nickname,
             "created_at": self.created_at.isoformat(),
-            "pokemon":
-            {
+            "pokemon": {
                 "id": self.pokemon.id,
                 "name": self.pokemon.name,
-                "pokedex_number": self.pokemon.pokedex_number,
-            },
+                "height": self.pokemon.height,
+                "weight": self.pokemon.weight,
+                "types": self.pokemon.types,
+                "abilities": self.pokemon.abilities,
+                "image_url": self.pokemon.image_url,
+                "artwork_url": self.pokemon.artwork_url
+            }
         }
 
 class Pokemon(db.Model):
@@ -75,10 +79,29 @@ class Pokemon(db.Model):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
-    type: Mapped[str] = mapped_column(String(50), nullable=False)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    image_url: Mapped[str | None] = mapped_column(String(200), nullable=True)
+
+    height: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    weight: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
+    types: Mapped[list] = mapped_column(JSON, nullable=False)       
+    abilities: Mapped[list] = mapped_column(JSON, nullable=False)   
+
+    image_url: Mapped[str | None] = mapped_column(String(255))
+    artwork_url: Mapped[str | None] = mapped_column(String(255))
+
     favorited_by = relationship("Favorite", back_populates="pokemon")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "height": self.height,
+            "weight": self.weight,
+            "types": self.types,
+            "abilities": self.abilities,
+            "image_url": self.image_url,
+            "artwork_url": self.artwork_url
+        }
 
     def __repr__(self):
         return f"<Pokemon {self.name}>"

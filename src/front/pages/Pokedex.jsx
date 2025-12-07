@@ -4,21 +4,13 @@ import PokemonCard from "../components/PokemonCard";
 
 export default function Pokedex() {
     const [pokemons, setPokemons] = useState([]);
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=50")
+        fetch(`${backendUrl}/api/pokemons`)
             .then(res => res.json())
-            .then(async data => {
-                const results = await Promise.all(
-                    data.results.map(async p => {
-                        const info = await fetch(p.url).then(r => r.json());
-                        return {
-                            name: p.name,
-                            image: info.sprites.front_default
-                        };
-                    })
-                );
-                setPokemons(results);
+            .then(data => {
+                setPokemons(data); 
             })
             .catch(err => console.error("Error cargando Pokémon:", err));
     }, []);
