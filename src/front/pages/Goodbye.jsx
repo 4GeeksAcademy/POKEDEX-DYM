@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import medallasIMG from "../assets/img/medallas.png";
+
 
 export default function Goodbye() {
     return (
@@ -13,11 +15,15 @@ export default function Goodbye() {
                 marginTop: "-80px"
             }}
         >
-            <h1 className="fw-bold mb-3">👋 ¡Hasta pronto!</h1>
+            <img
+                src={medallasIMG}
+                style={{ width: "350px", marginBottom: "20px" }}
+            />
+            <h1 className="fw-bold mb-3">👋 ¡Hasta pronto, entrenadorx!</h1>
 
             <p className="fs-5 mb-4">
-                Tu sesión se ha cerrado correctamente.<br />
-                ¡Vuelve cuando quieras seguir explorando tu Pokédex!
+                Tu sesión se ha cerrado correctamente.<br /> 
+                Esperamos verte de nuevo para seguir atrapándolos a todos.
             </p>
 
             <Link to="/login" className="btn btn-light fw-bold px-4 py-2">

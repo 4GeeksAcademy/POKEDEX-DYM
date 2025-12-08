@@ -204,24 +204,55 @@ def get_profile():
     return jsonify({
         "id": user.id,
         "email": user.email,
-        "username": user.username
+        "username": user.username,
+        "bio": getattr(user, "bio", "") or "",
+        "region": getattr(user, "region", "") or "",
+        "favorite_pokemon": getattr(user, "favorite_pokemon", "") or ""
     }), 200
 
 
-# Actualizar nickname
+# Actualizar perfil
 @api.route("/profile", methods=["PUT"])
 @jwt_required()
 def update_profile():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
 
-    data = request.json
+    if not user:
+        return jsonify({"msg": "Usuario no encontrado"}), 404
+
+    data = request.get_json() or {}
+
     username = data.get("username")
+    bio = data.get("bio")
+    region = data.get("region")
+    favorite = data.get("favorite_pokemon") or data.get("favoritePokemon")
 
     if not username:
-        return jsonify({"msg": "Nickname requerido"}), 400
+        return jsonify({"message": "Trainer requerido"}), 400
 
-    user.username = username
-    db.session.commit()
+    fields = {
+        "username": username,
+        "bio": bio,
+        "region": region,
+        "favorite_pokemon": favorite
+    }
 
-    return jsonify({"msg": "Nickname actualizado"}), 200
+    for key, value in fields.items():
+        if val is not None:
+            setattr(user, key, value)
+
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"msg": "Error al actualizar el perfil", "error": str(e)}), 500
+
+    return jsonify({
+        "msg": "Perfil actualizado",
+        "email": user.email,
+        "username": user.username,
+        "bio": user.bio,
+        "region": user.region,
+        "favorite_pokemon": user.favorite_pokemon,
+    }), 200
