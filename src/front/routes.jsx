@@ -12,6 +12,7 @@ import Pokedex from "./pages/Pokedex";
 import Favoritos from "./pages/Favorites";
 import Perfil from "./pages/Perfil";
 import Goodbye from "./pages/Goodbye";
+import Nosotras from "./pages/Nosotras";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
       <Route path="/pokedex" element={<Pokedex />} />
       <Route path="/favoritos" element={<Favoritos />} />
       <Route path="/perfil" element={<Perfil />} />
+      <Route path="/nosotras" element={<Nosotras />} />
       <Route path="/goodbye" element={<Goodbye />} />
     </Route>
   )
