@@ -16,6 +16,10 @@ class User(db.Model):
     email: Mapped[str] = mapped_column(
         String(120), unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(String(225), nullable=False)
+    bio: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    region: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    favorite_pokemon: Mapped[str | None] = mapped_column(
+        String(100), nullable=True)
 
     favorites: Mapped[list["Favorite"]] = relationship(
         "Favorite",
@@ -36,7 +40,6 @@ class User(db.Model):
 
 class Favorite(db.Model):
     __tablename__ = "favorite"
-   
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(
@@ -74,6 +77,7 @@ class Favorite(db.Model):
             }
         }
 
+
 class Pokemon(db.Model):
     __tablename__ = "pokemons"
 
@@ -83,8 +87,8 @@ class Pokemon(db.Model):
     height: Mapped[int | None] = mapped_column(Integer, nullable=True)
     weight: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
-    types: Mapped[list] = mapped_column(JSON, nullable=False)       
-    abilities: Mapped[list] = mapped_column(JSON, nullable=False)   
+    types: Mapped[list] = mapped_column(JSON, nullable=False)
+    abilities: Mapped[list] = mapped_column(JSON, nullable=False)
 
     image_url: Mapped[str | None] = mapped_column(String(255))
     artwork_url: Mapped[str | None] = mapped_column(String(255))

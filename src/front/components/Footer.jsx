@@ -1,5 +1,5 @@
 export const Footer = () => (
-	<footer className="footer mt-auto text-center"
+	<footer className="footer py-2 text-center"
 	style={{
 		background: "linear-gradient(90deg, #d42424ff, #3b4ccaff)",
 		color: "white",

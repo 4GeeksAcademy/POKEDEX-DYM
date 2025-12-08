@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import medallasIMG from "../assets/img/medallas.png";
+
 
 export default function Goodbye() {
     return (
@@ -14,8 +16,8 @@ export default function Goodbye() {
             }}
         >
             <img
-                src="/assets/img/medallas.png"
-                style={{ width: "150px", marginBottom: "20px" }}
+                src={medallasIMG}
+                style={{ width: "350px", marginBottom: "20px" }}
             />
             <h1 className="fw-bold mb-3">👋 ¡Hasta pronto, entrenadorx!</h1>
 
