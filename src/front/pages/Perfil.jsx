@@ -24,12 +24,12 @@ export default function Perfil() {
                 setNickname(data.username || "");
                 setBio(data.bio || data.message || "");
                 setRegion(data.region || "");
-                setFavoritePokemon(data.favorite_Pokemon || "");
+                setFavoritePokemon(data.favorite_pokemon || "");
             })
             .catch(err => {
                 console.log("Error cargando perfil:", err);
                 setMessage("❌ Error al cargar el perfil");
-                });
+            });
     }, [backendUrl, token]);
 
     // Guardar nickname
@@ -65,18 +65,18 @@ export default function Perfil() {
                 }));
             } else {
                 setMessage("❌ " + (data.msg || data.message || "Error al actualizar"));
-            } 
+            }
         }
         catch (err) {
-                console.log("Error guardando el perfil:", err);
-                setMessage("❌ Error al guardar los cambios");
-            }
-        };
+            console.log("Error guardando el perfil:", err);
+            setMessage("❌ Error al guardar los cambios");
+        }
+    };
 
     if (!profile) return <p className="m-4">Cargando perfil...</p>;
 
     return (
-        <div className="container mt-4" style={{ maxWidth: "500px" }}>
+        <div className="container mt-4" style={{ maxWidth: "500px", minHeight: "85vh" }}>
             <h2 className="fw-bold mb-4">👤 Mi Perfil</h2>
 
             <div className="card p-4 shadow">
@@ -126,7 +126,7 @@ export default function Perfil() {
 
                 {/* Pokémon Fav */}
                 <div className="mb-3">
-                    <label className="form-label fw-bold">Bio:</label>
+                    <label className="form-label fw-bold">Pokemon Favorito:</label>
                     <input
                         type="text"
                         className="form-control"

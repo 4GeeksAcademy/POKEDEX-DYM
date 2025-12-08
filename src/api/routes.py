@@ -239,7 +239,7 @@ def update_profile():
     }
 
     for key, value in fields.items():
-        if val is not None:
+        if value is not None:
             setattr(user, key, value)
 
     try:

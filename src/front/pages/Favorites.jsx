@@ -34,7 +34,7 @@ export default function Favoritos() {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4" style={{minHeight: "85vh"}}>
             <h2 className="fw-bold mb-4">⭐ Mis Pokemones Favoritos</h2>
 
             {favorites.length === 0 && (
