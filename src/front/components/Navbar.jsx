@@ -40,14 +40,14 @@ export const Navbar = () => {
 					{/* 🧑‍🚀 Si está logeado */}
 					{isLogged && (
 						<>
-							{/* ⭐ Mis favoritos */}
+							{/*  Mis favoritos */}
 							<Link to="/favoritos" className="btn btn-light fw-bold">
-								Mi Pokédex
+								Mis favoritos⭐
 							</Link>
 
-							{/* 👤 Perfil */}
+							{/*  Perfil */}
 							<Link to="/perfil" className="btn btn-light fw-bold">
-								Perfil
+								Perfil 👤
 							</Link>
 
 							{/* 🚪 Cerrar sesión */}
