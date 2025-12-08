@@ -72,21 +72,19 @@ def login_user():
 
 @api.route("/load_pokemons", methods=["GET"])
 def load_pokemons():
-    # Obtenemos los Pokémon de la Gen 1
     gen_url = "https://pokeapi.co/api/v2/generation/1/"
-    gen_data = requests.get(gen_url).json()
+    gen_data = requests.get(gen_url, timeout=10).json()
 
     species_list = gen_data["pokemon_species"]
-
     results = []
 
-    # Cargar cada Pokémon
-    for species in species_list:
+    batch = []
+
+    for index, species in enumerate(species_list):
         name = species["name"]
 
-        # Info del Pokémon
         info_url = f"https://pokeapi.co/api/v2/pokemon/{name}"
-        info = requests.get(info_url).json()
+        info = requests.get(info_url, timeout=10).json()
 
         types = [t["type"]["name"] for t in info["types"]]
         abilities = [a["ability"]["name"] for a in info["abilities"]]
@@ -101,16 +99,27 @@ def load_pokemons():
             artwork_url=info["sprites"]["other"]["official-artwork"]["front_default"]
         )
 
-        db.session.add(pokemon)
+        batch.append(pokemon)
+
         results.append({
             "name": name,
             "types": types,
             "image_url": pokemon.image_url
         })
 
-    db.session.commit()
+        # Guardar por lotes de 20 para no saturar RAM
+        if len(batch) == 20:
+            db.session.add_all(batch)
+            db.session.commit()
+            batch = []
+            time.sleep(0.2)  # evita saturar gunicorn
 
-    return jsonify({"msg": "Pokemons cargados correctamente", "count": len(results)}), 200
+    # Guardar cualquier resto
+    if batch:
+        db.session.add_all(batch)
+        db.session.commit()
+
+    return jsonify({"msg": "Pokemons cargados", "count": len(results)}), 200
 
 
 # -----------------------
